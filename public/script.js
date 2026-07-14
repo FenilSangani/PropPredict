@@ -584,8 +584,15 @@
         }
       }
     } catch (err) {
-      // Silently fail -- use default placeholder data
-      console.log('Model info not available, using defaults.');
+      console.log('Model info not available:', err);
+      var list = $('#featureBarList');
+      if (list) {
+        list.innerHTML = '<div style="color: #ff4d4d; text-align: center; padding: 20px 0;">Feature importances not available (models not loaded).</div>';
+      }
+      var tbody = document.querySelector('#modelTable tbody');
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #ff4d4d; padding: 20px 0;">Model metrics not available (models not loaded).</td></tr>';
+      }
     }
   }
 
