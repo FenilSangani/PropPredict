@@ -84,9 +84,9 @@ class ModelTrainer:
         # Tuned for better accuracy while avoiding overfitting
         print(f"\n  Model 3: Random Forest (Ensemble, tuned)...")
         rf_model = RandomForestRegressor(
-            n_estimators=150,
-            max_depth=25,
-            min_samples_split=2,
+            n_estimators=40,
+            max_depth=16,
+            min_samples_split=4,
             random_state=42,
             n_jobs=-1
         )

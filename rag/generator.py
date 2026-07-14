@@ -54,11 +54,25 @@ class AnswerGenerator:
 
     def _detect_cities(self, question, chunks):
         """Find which cities are mentioned in question or chunks."""
-        text = question.lower()
+        q = question.lower()
+        
+        # Check explicit mention in question first
+        cities = []
+        if 'mumbai' in q:
+            cities.append('Mumbai')
+        if 'delhi' in q or 'noida' in q or 'gurgaon' in q:
+            cities.append('Delhi')
+        if 'bangalore' in q or 'bengaluru' in q:
+            cities.append('Bangalore')
+            
+        if cities:
+            return cities
+        
+        # Fallback to checking chunks if no city is explicitly mentioned in the question
+        text = ""
         for chunk in chunks:
             text += ' ' + chunk.get('source_file', '').lower()
         
-        cities = []
         if 'mumbai' in text:
             cities.append('Mumbai')
         if 'delhi' in text or 'noida' in text or 'gurgaon' in text:

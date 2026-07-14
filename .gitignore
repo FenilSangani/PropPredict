@@ -13,8 +13,7 @@ build/
 venv/
 .venv/
 
-# Trained models (too large for git, run train.py to generate)
-models/*.pkl
+# Trained models (committed for Vercel serverless deployment)
 
 # Generated data (run train.py to generate)
 data/*.csv

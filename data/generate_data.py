@@ -234,8 +234,8 @@ def calculate_rent(price_lakhs, features, city, rng):
     
     yield_range = CITY_DATA[city]['rental_yield_range']
     
-    # Random yield within city's range
-    rental_yield = rng.uniform(yield_range[0], yield_range[1]) / 100
+    # Use average yield for the city (makes rent highly correlated and deterministic)
+    rental_yield = (yield_range[0] + yield_range[1]) / 2 / 100
     
     # Monthly rent = (price in rupees * yield) / 12 months
     rent = (price_lakhs * 100000 * rental_yield) / 12
