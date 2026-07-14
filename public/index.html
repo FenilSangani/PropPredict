@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PropPredict AI — Real Estate Price & Rent Predictor</title>
+  <meta name="description" content="AI-powered real estate price and rent predictions for Mumbai, Delhi, and Bangalore using Machine Learning and RAG technology." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
+</head>
+<body>
+
+  <!-- Animated Background Orbs -->
+  <div class="bg-animated">
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
+  </div>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">🏠 <span>PropPredict AI</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#predict">Predict</a></li>
+        <li><a href="#chat">RAG Chat</a></li>
+        <li><a href="#insights">Insights</a></li>
+      </ul>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+
+      <h1>
+        <span class="gradient-text">Real Estate Price<br/>& Rent Predictor</span>
+      </h1>
+      <p>Harness the power of Machine Learning and RAG to get instant, accurate property price and rent estimates for Mumbai, Delhi &amp; Bangalore.</p>
+      <a href="#predict" class="hero-cta">
+        Start Predicting
+        <span class="arrow">&rarr;</span>
+      </a>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="number">3</div>
+          <div class="label">Cities</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">500+</div>
+          <div class="label">Localities</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">95%+</div>
+          <div class="label">Accuracy</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CITY SELECTOR ========== -->
+  <section class="section" id="cities">
+    <div class="container">
+      <h2 class="section-title reveal">Choose Your City</h2>
+      <p class="section-subtitle reveal">Select a city to explore real estate predictions tailored to its unique market dynamics.</p>
+      <div class="city-cards reveal">
+        <div class="city-card" data-city="Mumbai">
+          <span class="city-emoji">🏙️</span>
+          <div class="city-name">Mumbai</div>
+          <div class="city-tagline">The City of Dreams &amp; Skyscrapers</div>
+        </div>
+        <div class="city-card" data-city="Delhi">
+          <span class="city-emoji">🏰</span>
+          <div class="city-name">Delhi</div>
+          <div class="city-tagline">India's Historic Capital Hub</div>
+        </div>
+        <div class="city-card" data-city="Bangalore">
+          <span class="city-emoji">🌳</span>
+          <div class="city-name">Bangalore</div>
+          <div class="city-tagline">Silicon Valley of India</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PREDICTOR ========== -->
+  <section class="section" id="predict">
+    <div class="container">
+      <h2 class="section-title reveal">Price & Rent Predictor</h2>
+      <p class="section-subtitle reveal">Fill in the property details below and let our ML models estimate the price and monthly rent.</p>
+
+      <div class="predictor-form glass reveal" style="padding: 40px; border-radius: var(--radius-xl);">
+        <form id="predictForm" autocomplete="off">
+          <div class="form-grid">
+
+            <!-- City -->
+            <div class="form-group">
+              <label class="form-label" for="citySelect">City</label>
+              <select class="form-select" id="citySelect" required>
+                <option value="" disabled selected>Select a city</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Bangalore">Bangalore</option>
+              </select>
+            </div>
+
+            <!-- Locality -->
+            <div class="form-group">
+              <label class="form-label" for="localitySelect">Locality</label>
+              <select class="form-select" id="localitySelect" required disabled>
+                <option value="" disabled selected>Select city first</option>
+              </select>
+            </div>
+
+            <!-- Property Type -->
+            <div class="form-group full-width">
+              <label class="form-label">Property Type</label>
+              <div class="btn-group" id="propertyTypeGroup">
+                <button type="button" class="btn-option active" data-value="Flat">🏢 Flat</button>
+                <button type="button" class="btn-option" data-value="House">🏡 House</button>
+                <button type="button" class="btn-option" data-value="Land">🌍 Land</button>
+              </div>
+            </div>
+
+            <!-- Size -->
+            <div class="form-group full-width">
+              <label class="form-label">Size (sq ft)</label>
+              <div class="range-wrap">
+                <input type="range" class="range-slider" id="sizeSlider" min="500" max="5000" value="1200" step="50" />
+                <span class="range-value" id="sizeValue">1200</span>
+              </div>
+            </div>
+
+            <!-- Bedrooms -->
+            <div class="form-group" id="bedroomsGroup">
+              <label class="form-label">Bedrooms (BHK)</label>
+              <div class="num-btn-group" id="bedroomsButtons">
+                <button type="button" class="num-btn" data-value="1">1</button>
+                <button type="button" class="num-btn active" data-value="2">2</button>
+                <button type="button" class="num-btn" data-value="3">3</button>
+                <button type="button" class="num-btn" data-value="4">4</button>
+                <button type="button" class="num-btn" data-value="5">5</button>
+              </div>
+            </div>
+
+            <!-- Floor Number (for Flat) -->
+            <div class="form-group" id="floorGroup">
+              <label class="form-label" for="floorInput">Floor Number</label>
+              <input type="number" class="form-input" id="floorInput" min="0" max="30" value="3" placeholder="e.g. 3" />
+            </div>
+
+            <!-- Total Floors (for House) -->
+            <div class="form-group" id="totalFloorsGroup" style="display:none">
+              <label class="form-label">Total Floors</label>
+              <div class="num-btn-group" id="totalFloorsButtons">
+                <button type="button" class="num-btn" data-value="1">1</button>
+                <button type="button" class="num-btn active" data-value="2">2</button>
+                <button type="button" class="num-btn" data-value="3">3</button>
+                <button type="button" class="num-btn" data-value="4">4</button>
+              </div>
+            </div>
+
+            <!-- Age -->
+            <div class="form-group" id="ageGroup">
+              <label class="form-label">Building Age (yrs)</label>
+              <div class="range-wrap">
+                <input type="range" class="range-slider" id="ageSlider" min="0" max="50" value="5" step="1" />
+                <span class="range-value" id="ageValue">5</span>
+              </div>
+            </div>
+
+            <!-- Furnishing -->
+            <div class="form-group" id="furnishingGroup">
+              <label class="form-label">Furnishing</label>
+              <div class="btn-group" id="furnishingButtons">
+                <button type="button" class="btn-option" data-value="Furnished">Furnished</button>
+                <button type="button" class="btn-option active" data-value="Semi-Furnished">Semi-Furnished</button>
+                <button type="button" class="btn-option" data-value="Unfurnished">Unfurnished</button>
+              </div>
+            </div>
+
+            <!-- Parking -->
+            <div class="form-group" id="parkingGroup">
+              <label class="form-label">Parking Available</label>
+              <div class="toggle-switch-wrap">
+                <div class="toggle-switch active" id="parkingToggle">
+                  <div class="toggle-knob"></div>
+                </div>
+                <span class="toggle-label" id="parkingLabel">Yes</span>
+              </div>
+            </div>
+
+          </div>
+
+          <button type="submit" class="predict-btn" id="predictBtn">
+            <div class="spinner"></div>
+            <span class="btn-text">Predict Price &amp; Rent</span>
+          </button>
+        </form>
+
+        <!-- Results -->
+        <div class="results-container" id="resultsContainer">
+          <div class="results-grid">
+            <div class="result-card price">
+              <div class="result-icon">💰</div>
+              <div class="result-label">Estimated Price</div>
+              <div class="result-value">Rs.<span id="priceResult">0</span> <span class="result-unit">Lakhs</span></div>
+            </div>
+            <div class="result-card rent">
+              <div class="result-icon">🏠</div>
+              <div class="result-label">Monthly Rent</div>
+              <div class="result-value">Rs.<span id="rentResult">0</span></div>
+            </div>
+          </div>
+          <div class="result-meta" id="resultMeta"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== RAG CHAT ========== -->
+  <section class="section" id="chat">
+    <div class="container">
+      <h2 class="section-title reveal">Ask About Real Estate</h2>
+      <p class="section-subtitle reveal">Chat with our AI assistant powered by RAG -- get insights backed by real data sources.</p>
+
+      <div class="chat-container reveal">
+        <div class="chat-header">
+          PropPredict AI Chat
+          <span class="status-dot"></span>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-message ai">
+            <div class="message-bubble">
+              Hello! I'm your real estate AI assistant. Ask me anything about property trends, best areas to invest, rent comparisons, and more across Mumbai, Delhi, and Bangalore!
+            </div>
+            <div class="message-time">Just now</div>
+          </div>
+        </div>
+
+        <div class="typing-indicator" id="typingIndicator">
+          <div class="typing-dots">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="suggestion-chips" id="suggestionChips">
+          <button class="suggestion-chip" data-question="Best areas to invest in Mumbai?">Best areas to invest in Mumbai?</button>
+          <button class="suggestion-chip" data-question="Compare rent in Delhi vs Bangalore">Compare rent in Delhi vs Bangalore</button>
+          <button class="suggestion-chip" data-question="Which locality in Bangalore for IT professionals?">Best locality for IT pros in Bangalore?</button>
+        </div>
+
+        <div class="chat-input-area">
+          <input type="text" class="chat-input" id="chatInput" placeholder="Ask about real estate..." autocomplete="off" />
+          <button class="chat-send" id="chatSend" aria-label="Send message">&#10148;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== INSIGHTS ========== -->
+  <section class="section" id="insights">
+    <div class="container">
+      <h2 class="section-title reveal">Model Insights</h2>
+      <p class="section-subtitle reveal">Explore the performance metrics and feature importance of our ML models.</p>
+
+      <div class="insights-grid reveal">
+        <!-- Feature Importance -->
+        <div class="insight-card">
+          <div class="insight-card-title">Feature Importance</div>
+          <div class="feature-bar-list" id="featureBarList">
+            <!-- Populated by JS -->
+            <div class="feature-bar-item">
+              <div class="feature-bar-label">
+                <span class="feature-bar-name">Size (sq ft)</span>
+                <span class="feature-bar-value">92%</span>
+              </div>
+              <div class="feature-bar-track"><div class="feature-bar-fill" data-width="92"></div></div>
+            </div>
+            <div class="feature-bar-item">
+              <div class="feature-bar-label">
+                <span class="feature-bar-name">Locality</span>
+                <span class="feature-bar-value">85%</span>
+              </div>
+              <div class="feature-bar-track"><div class="feature-bar-fill" data-width="85"></div></div>
+            </div>
+            <div class="feature-bar-item">
+              <div class="feature-bar-label">
+                <span class="feature-bar-name">Bedrooms</span>
+                <span class="feature-bar-value">68%</span>
+              </div>
+              <div class="feature-bar-track"><div class="feature-bar-fill" data-width="68"></div></div>
+            </div>
+            <div class="feature-bar-item">
+              <div class="feature-bar-label">
+                <span class="feature-bar-name">Floor</span>
+                <span class="feature-bar-value">45%</span>
+              </div>
+              <div class="feature-bar-track"><div class="feature-bar-fill" data-width="45"></div></div>
+            </div>
+            <div class="feature-bar-item">
+              <div class="feature-bar-label">
+                <span class="feature-bar-name">Age</span>
+                <span class="feature-bar-value">38%</span>
+              </div>
+              <div class="feature-bar-track"><div class="feature-bar-fill" data-width="38"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Model Comparison -->
+        <div class="insight-card">
+          <div class="insight-card-title">Model Comparison</div>
+          <div class="model-table-wrap">
+            <table class="model-table" id="modelTable">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>R2 Score</th>
+                  <th>MAE</th>
+                  <th>RMSE</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="model-name">Ridge Regression (Price)</td>
+                  <td class="metric-good">0.89</td>
+                  <td>8.4 L</td>
+                  <td>12.1 L</td>
+                </tr>
+                <tr>
+                  <td class="model-name">Linear Regression (Price)</td>
+                  <td class="metric-ok">0.85</td>
+                  <td>10.2 L</td>
+                  <td>14.8 L</td>
+                </tr>
+                <tr>
+                  <td class="model-name">Ridge Regression (Rent)</td>
+                  <td class="metric-good">0.87</td>
+                  <td>Rs.3,200</td>
+                  <td>Rs.4,800</td>
+                </tr>
+                <tr>
+                  <td class="model-name">Linear Regression (Rent)</td>
+                  <td class="metric-ok">0.82</td>
+                  <td>Rs.4,100</td>
+                  <td>Rs.6,200</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">PP <span>PropPredict AI</span></div>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#predict">Predict</a></li>
+          <li><a href="#chat">RAG Chat</a></li>
+          <li><a href="#insights">Insights</a></li>
+        </ul>
+        <div class="footer-copy">2026 PropPredict AI -- Built with ML + RAG</div>
+        <div class="footer-love">Made with <span class="heart">care</span> for smarter real estate decisions</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
